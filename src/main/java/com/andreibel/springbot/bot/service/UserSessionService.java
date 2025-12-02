@@ -8,16 +8,16 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Service
-public class localizationService {
+public class UserSessionService {
 
     private final UserSessionRepository userSessionRepository;
 
-    public localizationService(UserSessionRepository userSessionRepository) {
+    public UserSessionService(UserSessionRepository userSessionRepository) {
         this.userSessionRepository = userSessionRepository;
     }
 
-    public UserSession getOrCreateUserSession(Long chatId) {
-        Optional<UserSession> userSession = userSessionRepository.findById(chatId);
+    private UserSession getOrCreateUserSession(Long chatId) {
+        Optional<UserSession> userSession = userSessionRepository.findByChatId(chatId);
         return userSession.orElseGet(() -> {
             UserSession session = new UserSession();
             session.setChatId(chatId);
