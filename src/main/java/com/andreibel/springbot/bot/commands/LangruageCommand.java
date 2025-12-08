@@ -2,6 +2,7 @@ package com.andreibel.springbot.bot.commands;
 
 import com.andreibel.springbot.bot.events.MessageEvent;
 import com.andreibel.springbot.bot.service.LocalizationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -31,28 +32,24 @@ public class LangruageCommand implements Command {
     @Override
     public boolean canHandle(Update update) {
         if (!update.hasMessage() || !update.getMessage().hasText()) return false;
-
         Long chatId = update.getMessage().getChatId();
         String localizedMessage = localizationService.getLocalizedMessage(chatId, "menu.language");
-
         return update.getMessage().getText().startsWith(localizedMessage);
-
     }
 
     @Override
     public void handle(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            // Set variables
-            long chatId = update.getMessage().getChatId();
-            String localizedMessage = localizationService.getLocalizedMessage(chatId, "language.select");
-            SendMessage message = SendMessage // Create a message object
-                    .builder()
-                    .chatId(chatId)
-                    .text(localizedMessage)
-                    .replyMarkup(languageInLIne(chatId))
-                    .build();
-            eventPublisher.publishEvent(new MessageEvent(this, message));
-        }
+        // Set variables
+        Long chatId = update.getMessage().getChatId();
+        String localizedMessage = localizationService.getLocalizedMessage(chatId, "language.select");
+        SendMessage message = SendMessage // Create a message object
+                .builder()
+                .chatId(chatId)
+                .text(localizedMessage)
+                .replyMarkup(languageInLIne(chatId))
+                .build();
+        eventPublisher.publishEvent(new MessageEvent(this, message));
+
     }
 
     private ReplyKeyboard languageInLIne(Long chatId) {

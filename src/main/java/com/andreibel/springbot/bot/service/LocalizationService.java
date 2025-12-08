@@ -1,5 +1,6 @@
 package com.andreibel.springbot.bot.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 

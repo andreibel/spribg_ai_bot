@@ -2,6 +2,7 @@ package com.andreibel.springbot.bot.service;
 
 import com.andreibel.springbot.bot.model.UserSession;
 import com.andreibel.springbot.bot.model.repo.UserSessionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
@@ -11,7 +12,6 @@ import java.util.Optional;
 public class UserSessionService {
 
     private final UserSessionRepository userSessionRepository;
-
     public UserSessionService(UserSessionRepository userSessionRepository) {
         this.userSessionRepository = userSessionRepository;
     }

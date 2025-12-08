@@ -1,5 +1,6 @@
 package com.andreibel.springbot.bot.commands;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 

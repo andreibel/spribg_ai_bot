@@ -13,4 +13,5 @@
     <changeSet id="1764615402186-2" author="andreibeloziorove (generated)">
         <dropColumn columnName="langruage" tableName="user_session"/>
     </changeSet>
+
 </databaseChangeLog>
