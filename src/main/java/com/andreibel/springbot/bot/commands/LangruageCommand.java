@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Component
 public class LangruageCommand implements Command {
 
@@ -23,11 +24,6 @@ public class LangruageCommand implements Command {
 
     private final ApplicationEventPublisher eventPublisher;
     private final LocalizationService localizationService;
-
-    public LangruageCommand(ApplicationEventPublisher eventPublisher, LocalizationService localizationService) {
-        this.eventPublisher = eventPublisher;
-        this.localizationService = localizationService;
-    }
 
     @Override
     public boolean canHandle(Update update) {
@@ -42,8 +38,7 @@ public class LangruageCommand implements Command {
         // Set variables
         Long chatId = update.getMessage().getChatId();
         String localizedMessage = localizationService.getLocalizedMessage(chatId, "language.select");
-        SendMessage message = SendMessage // Create a message object
-                .builder()
+        SendMessage message = SendMessage.builder()
                 .chatId(chatId)
                 .text(localizedMessage)
                 .replyMarkup(languageInLIne(chatId))

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@RequiredArgsConstructor
 @Component
 public class LangruageCallbackCommand implements Command {
 
@@ -23,14 +24,6 @@ public class LangruageCallbackCommand implements Command {
     private final UserSessionService userSessionService;
     private final MessageTrackerService messageTrackerService;
 
-    public LangruageCallbackCommand(ApplicationEventPublisher eventPublisher, LocalizationService localizationService, KeyboardService keyboardService, UserSessionService userSessionService, MessageTrackerService messageTrackerService) {
-        this.eventPublisher = eventPublisher;
-        this.localizationService = localizationService;
-        this.keyboardService = keyboardService;
-        this.userSessionService = userSessionService;
-        this.messageTrackerService = messageTrackerService;
-    }
-
     @Override
     public boolean canHandle(Update update) {
         if (!update.hasCallbackQuery()) return false;
@@ -40,7 +33,7 @@ public class LangruageCallbackCommand implements Command {
 
     @Override
     public void handle(Update update) {
-        Long chatId = update.getCallbackQuery().getMessage().getChatId();
+        Long chatId = Command.getChatIdCallBack(update);
         String language = update.getCallbackQuery().getData();
         messageTrackerService.deleteLastMessage(chatId);
         String locate = switch (language) {

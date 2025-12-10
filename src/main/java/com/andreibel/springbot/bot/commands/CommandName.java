@@ -3,7 +3,8 @@ package com.andreibel.springbot.bot.commands;
 public enum CommandName {
     ABOUT("ABOUT_COMMAND"),
     LANGUAGE("LANGUAGE_COMMAND"),
-    START("START_COMMAND"),;
+    START("START_COMMAND"),
+    EXPERTS("EXPERTS_COMMAND");
 
     private final String name;
 

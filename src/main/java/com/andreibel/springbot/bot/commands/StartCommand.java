@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@RequiredArgsConstructor
 @Component
 public class StartCommand implements Command {
 
@@ -16,23 +17,18 @@ public class StartCommand implements Command {
     private final LocalizationService localizationService;
     private final KeyboardService keyboardService;
 
-    public StartCommand(ApplicationEventPublisher eventPublisher, LocalizationService localizationService, KeyboardService keyboardService) {
-        this.eventPublisher = eventPublisher;
-        this.localizationService = localizationService;
-        this.keyboardService = keyboardService;
-    }
 
     @Override
     public boolean canHandle(Update update) {
         if (!update.hasMessage() || !update.getMessage().hasText()) return false;
-        long chatId = update.getMessage().getChatId();
+        long chatId = Command.getChatId(update);
         String localizedMessage = localizationService.getLocalizedMessage(chatId, "menu.start");
         return update.getMessage().getText().startsWith(localizedMessage);
     }
 
     @Override
     public void handle(Update update) {
-        long chatId = update.getMessage().getChatId();
+        long chatId = Command.getChatId(update);
         String localizedMessage = localizationService.getLocalizedMessage(chatId, "menu.welcome");
         SendMessage message = SendMessage.builder()
                 .chatId(chatId)
