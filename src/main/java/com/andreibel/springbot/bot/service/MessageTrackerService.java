@@ -9,13 +9,11 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@RequiredArgsConstructor
 @Service
 public class MessageTrackerService {
     private final Map<Long, Integer> lastBotMessage = new ConcurrentHashMap<>();
     private final ApplicationEventPublisher eventPublisher;
-    public MessageTrackerService(ApplicationEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
 
     public void saveLastMessage(Long chatId, Integer messageId){
         lastBotMessage.put(chatId, messageId);

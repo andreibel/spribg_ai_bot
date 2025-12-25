@@ -1,10 +1,10 @@
 package com.andreibel.springbot.bot.commands;
 
 import com.andreibel.springbot.bot.events.MessageEvent;
-import com.andreibel.springbot.bot.service.expert.ExpertService;
 import com.andreibel.springbot.bot.service.LocalizationService;
 import com.andreibel.springbot.bot.service.UserSessionService;
 import com.andreibel.springbot.bot.service.expert.Expert;
+import com.andreibel.springbot.bot.service.expert.ExpertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -57,10 +57,7 @@ public class ExpertsCommand implements Command{
         return CommandName.EXPERTS.getName();
     }
 
-    private InlineKeyboardMarkup expertsInline(
-            List<String> expertNames,
-            List<String> expertIds
-    ) {
+    private InlineKeyboardMarkup expertsInline(List<String> expertNames, List<String> expertIds) {
         List<InlineKeyboardRow> rows = new ArrayList<>();
         for (int i = 0; i < expertNames.size(); i++) {
             rows.add(new InlineKeyboardRow(InlineKeyboardButton.builder()

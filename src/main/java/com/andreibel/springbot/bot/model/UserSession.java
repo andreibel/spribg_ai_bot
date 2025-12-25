@@ -1,10 +1,14 @@
 package com.andreibel.springbot.bot.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("user_session")
+@Getter
+@Setter
 public class UserSession {
 
     @Id
@@ -20,35 +24,11 @@ public class UserSession {
     @Column("firest_name")
     private String firestName;
 
-    public String getFirestName() {
-        return firestName;
-    }
+    @Column("selected_expert_id")
+    private String selectedExpertId;
 
-    public void setFirestName(String firestName) {
-        this.firestName = firestName;
-    }
+    @Column("user_states")
+    private UserState userStates;
 
-    public String getLocale() {
-        return locale;
-    }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
-    public Long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

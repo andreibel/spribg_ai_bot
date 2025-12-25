@@ -2,7 +2,6 @@ package com.andreibel.springbot.bot.events;
 
 
 import com.andreibel.springbot.bot.service.MessageTrackerService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;

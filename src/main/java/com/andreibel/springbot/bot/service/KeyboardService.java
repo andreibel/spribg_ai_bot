@@ -1,6 +1,5 @@
 package com.andreibel.springbot.bot.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -19,19 +18,26 @@ public class KeyboardService {
     }
 
     public ReplyKeyboard mainKeyboard(Long chatId){
-        List<KeyboardRow> keyBoard = new ArrayList<>();
-
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        // First row
         KeyboardRow row1 = new KeyboardRow();
         row1.add(localizationService.getLocalizedMessage(chatId, "menu.about"));
-        keyBoard.add(row1);
+        row1.add(localizationService.getLocalizedMessage(chatId, "menu.fact"));
+        keyboard.add(row1);
+        // Second row
         KeyboardRow row2 = new KeyboardRow();
-        row1.add(localizationService.getLocalizedMessage(chatId, "menu.language"));
-        keyBoard.add(row2);
+        row2.add(localizationService.getLocalizedMessage(chatId, "menu.language"));
+        keyboard.add(row2);
+        KeyboardRow row3 = new KeyboardRow();
+        row3.add(localizationService.getLocalizedMessage(chatId, "menu.experts"));
+        row3.add(localizationService.getLocalizedMessage(chatId, "menu.ask"));
+        keyboard.add(row3);
+        // Keyboard settings
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(keyboard);
+        keyboardMarkup.setResizeKeyboard(true);
+        keyboardMarkup.setOneTimeKeyboard(false);
 
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(keyBoard);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        return keyboardMarkup;
 
-        return replyKeyboardMarkup;
     }
 }

@@ -1,7 +1,7 @@
 package com.andreibel.springbot.bot.commands;
 
 import com.andreibel.springbot.bot.events.MessageEvent;
-import com.andreibel.springbot.bot.service.KeyboardService;
+import com.andreibel.springbot.bot.model.UserState;
 import com.andreibel.springbot.bot.service.LocalizationService;
 import com.andreibel.springbot.bot.service.MessageTrackerService;
 import com.andreibel.springbot.bot.service.UserSessionService;
@@ -12,10 +12,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class ExpertSelectCallbackCommand implements Command {
-
     private final UserSessionService userSessionService;
     private final LocalizationService localizationService;
     private final ExpertService expertService;
@@ -24,9 +23,7 @@ public class ExpertSelectCallbackCommand implements Command {
 
     @Override
     public boolean canHandle(Update update) {
-        if (!update.hasCallbackQuery()) {
-            return false;
-        }
+        if (!update.hasCallbackQuery()) return false;
         String callbackData = update.getCallbackQuery().getData();
         return callbackData.startsWith(ExpertsCommand.EXPERT_PREFIX);
     }
@@ -37,17 +34,10 @@ public class ExpertSelectCallbackCommand implements Command {
         messageTrackerService.deleteLastMessage(chatId);
         String callbackData = update.getCallbackQuery().getData();
         String expertId = callbackData.substring(ExpertsCommand.EXPERT_PREFIX.length());
-        //userSessionService.setSelectedExpertId(chatId, expertId);
-        //userSessionService.setUserState(chatId, UserState.WAITING_FOR_EXPERT_QUESTION);
-        var expert = expertService.getExpertById(
-                expertId,
-                userSessionService.getLocale(chatId)
-        );
-        String selectedExpertText = localizationService.getLocalizedMessage(
-                chatId,
-                "ask.expert.selected",
-                expert
-        );
+        userSessionService.setSelectedExpertId(chatId, expertId);
+        userSessionService.setUserState(chatId, UserState.WAITING_FOR_EXPERT_QUESTION);
+        var expert = expertService.getExpertById(expertId, userSessionService.getLocale(chatId));
+        String selectedExpertText = localizationService.getLocalizedMessage(chatId, "ask.expert.selected", expert);
         userSessionService.getLocale(chatId);
         SendMessage message = SendMessage.builder()
                 .chatId(chatId.toString())
