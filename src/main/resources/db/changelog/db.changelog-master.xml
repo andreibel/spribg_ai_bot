@@ -4,16 +4,5 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
-    <include file="db/changelog/initial.xml"/>
-    <include file="db/changelog/25-01-changelog.xml"/>
-    <include file="db/changelog/25-02-changelog.xml"/>
-    <changeSet id="1764615402186-1" author="andreibeloziorove (generated)">
-        <addColumn tableName="user_session">
-            <column name="locale" type="VARCHAR"/>
-        </addColumn>
-    </changeSet>
-    <changeSet id="1764615402186-2" author="andreibeloziorove (generated)">
-        <dropColumn columnName="langruage" tableName="user_session"/>
-    </changeSet>
-
+    <include file="db/changelog/26-01-changelog.xml"/>
 </databaseChangeLog>

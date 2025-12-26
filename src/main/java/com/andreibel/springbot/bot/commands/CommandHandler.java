@@ -58,9 +58,12 @@ public class CommandHandler {
      *               inside individual commands are recommended to avoid {@link NullPointerException}s).
      */
     public void handle(Update update) {
-        for (Command command : commands)
-            if (command.canHandle(update))
+        for (Command command : commands) {
+            if (command.canHandle(update)) {
                 command.handle(update);
+                return;
+            }
+        }
     }
 }
 
