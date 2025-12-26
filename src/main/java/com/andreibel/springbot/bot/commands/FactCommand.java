@@ -1,18 +1,24 @@
 package com.andreibel.springbot.bot.commands;
 
 import com.andreibel.springbot.bot.events.MessageEvent;
+import com.andreibel.springbot.bot.service.AiService;
 import com.andreibel.springbot.bot.service.LocalizationService;
+import com.andreibel.springbot.bot.service.UserSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.Locale;
+
 @RequiredArgsConstructor
 @Service
 public class FactCommand implements Command {
     private final LocalizationService localizationService;
     private final ApplicationEventPublisher eventPublisher;
+    private final AiService aiService;
+    private final UserSessionService userSessionService;
 
 
     @Override
@@ -28,10 +34,13 @@ public class FactCommand implements Command {
     @Override
     public void handle(Update update) {
         Long chatId = update.getMessage().getChatId();
-        String fact = "fact from LLM"; //TODO: add functionality for LLM
+        Locale locale = userSessionService.getLocale(chatId);
+
+        String randomFact = aiService.randomFact(locale);
+
         SendMessage message = SendMessage.builder()
                 .chatId(chatId.toString())
-                .text(fact)
+                .text(randomFact)
                 .build();
         eventPublisher.publishEvent(new MessageEvent(this, message));
     }

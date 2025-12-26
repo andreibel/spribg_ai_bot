@@ -2,6 +2,7 @@ package com.andreibel.springbot.bot.commands;
 
 import com.andreibel.springbot.bot.events.MessageEvent;
 import com.andreibel.springbot.bot.model.UserState;
+import com.andreibel.springbot.bot.service.AiService;
 import com.andreibel.springbot.bot.service.UserSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -17,6 +18,7 @@ public class AskExpertCommand implements Command {
 
     private final ApplicationEventPublisher eventPublisher;
     private final UserSessionService userSessionService;
+    private final AiService aiService;
 
 
     @Override
@@ -33,12 +35,15 @@ public class AskExpertCommand implements Command {
         String question = update.getMessage().getText();
         String selectedExpert = userSessionService.getSelectedExpertId(chatId);
         Locale locale = userSessionService.getLocale(chatId);
-
+        String answerAsExpert = aiService.answerAsExpert(
+                selectedExpert,
+                question,
+                locale);
 
         userSessionService.setUserState(chatId, UserState.IDLE);
         SendMessage message = SendMessage.builder()
                 .chatId(chatId)
-                .text("place holder for AI answer!!!")
+                .text(answerAsExpert)
                 .build();
         eventPublisher.publishEvent(new MessageEvent(this, message));
     }
