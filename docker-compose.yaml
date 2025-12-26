@@ -1,29 +1,11 @@
+version: "3.9"
+
 services:
-  postgres:
-    image: postgres:18.1
-    restart: "no"
-    volumes:
-      - postgres_data:/var/lib/postgresql/
-    healthcheck:
-      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
-      interval: 10s
-      timeout: 5s
-      start_period: 10s
-      retries: 5
-    env_file: secret.env
   spring-bot:
-    image: spring-bot:latest
-    build:
-      context: .
-      args:
-        DOCKER_BUILDKIT: 1
-    restart: "no"
+    image: 701804429993.dkr.ecr.eu-north-1.amazonaws.com/andreibel/spring-bot:latest
+    container_name: spring-bot
+    restart: unless-stopped
     ports:
       - "8080:8080"
-    depends_on:
-      - postgres
-    env_file: secret.env
-    environment:
-      POSTGRES_HOST: postgres
-volumes:
-  postgres_data:
+    env_file:
+      - secret.env
